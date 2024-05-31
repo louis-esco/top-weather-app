@@ -45,10 +45,27 @@ function getForecast(location) {
       },
     };
 
-    console.log(shortForecast);
+    return shortForecast;
   }
 
   return processForecast(location);
 }
 
-getForecast("London");
+function displayForecast() {
+  const searchInput = document.querySelector(".searchInput");
+  const searchBtn = document.querySelector(".searchBtn");
+
+  async function searchForecast() {
+    const inputCity = searchInput.value;
+    const forecast = await getForecast(inputCity);
+    console.log(forecast);
+  }
+
+  searchBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    searchForecast();
+    searchInput.value = "";
+  });
+}
+
+displayForecast();
