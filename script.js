@@ -55,10 +55,30 @@ function screenController() {
   const searchInput = document.querySelector(".searchInput");
   const searchBtn = document.querySelector(".searchBtn");
 
+  const dTemp = document.querySelector(".d .weatherTemp span");
+  const d1Temp = document.querySelector(".d1 .weatherTemp span");
+  const d2Temp = document.querySelector(".d2 .weatherTemp span");
+  const d3Temp = document.querySelector(".d3 .weatherTemp span");
+
+  const dCondition = document.querySelector(".d .weatherCondition span");
+  const d1Condition = document.querySelector(".d1 .weatherCondition span");
+  const d2Condition = document.querySelector(".d2 .weatherCondition span");
+  const d3Condition = document.querySelector(".d3 .weatherCondition span");
+
   async function displayForecast() {
     const inputCity = searchInput.value;
     const forecast = await getForecast(inputCity);
     console.log(forecast);
+
+    dTemp.textContent = forecast.current.temp_c;
+    d1Temp.textContent = forecast.forecastday.d1.maxtemp_c;
+    d2Temp.textContent = forecast.forecastday.d2.maxtemp_c;
+    d3Temp.textContent = forecast.forecastday.d3.maxtemp_c;
+
+    dCondition.textContent = forecast.current.condition;
+    d1Condition.textContent = forecast.forecastday.d1.condition;
+    d2Condition.textContent = forecast.forecastday.d2.condition;
+    d3Condition.textContent = forecast.forecastday.d3.condition;
   }
 
   searchBtn.addEventListener("click", (e) => {
