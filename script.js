@@ -51,11 +51,11 @@ function getForecast(location) {
   return processForecast(location);
 }
 
-function displayForecast() {
+function screenController() {
   const searchInput = document.querySelector(".searchInput");
   const searchBtn = document.querySelector(".searchBtn");
 
-  async function searchForecast() {
+  async function displayForecast() {
     const inputCity = searchInput.value;
     const forecast = await getForecast(inputCity);
     console.log(forecast);
@@ -63,9 +63,9 @@ function displayForecast() {
 
   searchBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    searchForecast();
+    displayForecast();
     searchInput.value = "";
   });
 }
 
-displayForecast();
+screenController();
