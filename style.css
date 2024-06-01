@@ -1,0 +1,61 @@
+body {
+  margin: 0;
+  background-color: #38bdf8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  font-size: 2.3rem;
+}
+
+main {
+  flex: 1;
+}
+
+main input.searchInput {
+  border: 1px solid #9ca3af;
+  border-radius: 6px;
+  width: 50%;
+  font-size: 1.2rem;
+  padding: 10px;
+}
+
+main form.searchForm {
+  display: flex;
+  justify-content: center;
+}
+
+.weatherDisplay {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px;
+  gap: 20px;
+}
+
+.dayWeather {
+  background-color: rgba(255, 255, 255, 0.8);
+  min-height: 100px;
+  min-width: 100px;
+  border-radius: 15px;
+  padding: 20px;
+  flex: 1;
+}
+
+.weatherDate {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+footer {
+  padding: 10px 0;
+  color: white;
+  text-align: center;
+}

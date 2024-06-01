@@ -8,9 +8,39 @@
     <title>TOP Weather App</title>
   </head>
   <body>
-    <form action="">
-      <input class="searchInput" placeholder="Type your city" type="text" />
-      <button class="searchBtn">Search</button>
-    </form>
+    <header>
+      <h1>My Weather App</h1>
+    </header>
+    <main>
+      <section class="search">
+        <form class="searchForm" action="">
+          <input class="searchInput" placeholder="Type your city" type="text" />
+          <input type="submit" value="Search" class="searchBtn" hidden />
+        </form>
+      </section>
+      <section class="weatherDisplay">
+        <div class="dayWeather d">
+          <div class="weatherDate">Today</div>
+          <div class="weatherTemp">Temp °C: <span></span></div>
+          <div class="weatherCondition">Condition: <span></span></div>
+        </div>
+        <div class="dayWeather d1">
+          <div class="weatherDate">Tomorrow</div>
+          <div class="weatherTemp">Temp °C: <span></span></div>
+          <div class="weatherCondition">Condition: <span></span></div>
+        </div>
+        <div class="dayWeather d2">
+          <div class="weatherDate">D+2</div>
+          <div class="weatherTemp">Temp °C: <span></span></div>
+          <div class="weatherCondition">Condition: <span></span></div>
+        </div>
+        <div class="dayWeather d3">
+          <div class="weatherDate">D+3</div>
+          <div class="weatherTemp">Temp °C: <span></span></div>
+          <div class="weatherCondition">Condition: <span></span></div>
+        </div>
+      </section>
+    </main>
+    <footer>Powered by WeatherAPI.com</footer>
   </body>
 </html>
