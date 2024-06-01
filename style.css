@@ -4,7 +4,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
@@ -32,7 +31,19 @@ main form.searchForm {
   justify-content: center;
 }
 
-.weatherDisplay {
+.error {
+  text-align: center;
+  color: red;
+}
+
+.city {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 30px;
+}
+
+.weatherBlocks {
   display: flex;
   justify-content: space-between;
   margin: 30px;
@@ -52,6 +63,10 @@ main form.searchForm {
   text-align: center;
   font-weight: 600;
   font-size: 1.1rem;
+}
+
+.weatherDisplay img {
+  max-width: 100%;
 }
 
 footer {

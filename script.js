@@ -1,15 +1,28 @@
 function getForecast(location) {
   async function fetchForecast(location) {
-    const response = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?key=06dc5f01de824b5db7084207242905&q=${location}&days=4`
-    );
-    const forecast = await response.json();
+    try {
+      const response = await fetch(
+        `http://api.weatherapi.com/v1/forecast.json?key=06dc5f01de824b5db7084207242905&q=${location}&days=4`
+      );
 
-    return forecast;
+      if (response.ok) {
+        const forecast = await response.json();
+        return forecast;
+      } else {
+        const error = await response.json();
+        return ["Error", error.error.message];
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async function processForecast(location) {
     const fullForecast = await fetchForecast(location);
+
+    if (fullForecast[0] === "Error") {
+      return fullForecast;
+    }
 
     const shortForecast = {
       current: {
@@ -41,6 +54,7 @@ function getForecast(location) {
       location: {
         city: fullForecast.location.name,
         country: fullForecast.location.country,
+        region: fullForecast.location.region,
         localTime: fullForecast.location.localtime,
       },
     };
@@ -51,9 +65,21 @@ function getForecast(location) {
   return processForecast(location);
 }
 
+async function getGiphyUrl(search) {
+  const giphyResponse = await fetch(
+    `https://api.giphy.com/v1/gifs/translate?api_key=If7P99eN3FTdUKf7uPODRhhih55ywZNp&s=${search}`,
+    { mode: "cors" }
+  );
+  const giphyData = await giphyResponse.json();
+
+  return giphyData.data.images.original.url;
+}
+
 function screenController() {
   const searchInput = document.querySelector(".searchInput");
   const searchBtn = document.querySelector(".searchBtn");
+
+  const city = document.querySelector(".city span");
 
   const dTemp = document.querySelector(".d .weatherTemp span");
   const d1Temp = document.querySelector(".d1 .weatherTemp span");
@@ -65,20 +91,60 @@ function screenController() {
   const d2Condition = document.querySelector(".d2 .weatherCondition span");
   const d3Condition = document.querySelector(".d3 .weatherCondition span");
 
+  const dImg = document.querySelector(".d img");
+  const d1Img = document.querySelector(".d1 img");
+  const d2Img = document.querySelector(".d2 img");
+  const d3Img = document.querySelector(".d3 img");
+
+  const errorMsg = document.querySelector(".error");
+
+  function resetDisplay() {
+    errorMsg.textContent = "";
+
+    city.textContent = "-";
+
+    dTemp.textContent = "-";
+    d1Temp.textContent = "-";
+    d2Temp.textContent = "-";
+    d3Temp.textContent = "-";
+
+    dCondition.textContent = "-";
+    d1Condition.textContent = "-";
+    d2Condition.textContent = "-";
+    d3Condition.textContent = "-";
+
+    dImg.src = "";
+    d1Img.src = "";
+    d2Img.src = "";
+    d3Img.src = "";
+  }
+
   async function displayForecast() {
+    resetDisplay();
+
     const inputCity = searchInput.value;
     const forecast = await getForecast(inputCity);
-    console.log(forecast);
 
-    dTemp.textContent = forecast.current.temp_c;
-    d1Temp.textContent = forecast.forecastday.d1.maxtemp_c;
-    d2Temp.textContent = forecast.forecastday.d2.maxtemp_c;
-    d3Temp.textContent = forecast.forecastday.d3.maxtemp_c;
+    if (forecast[0] === "Error") {
+      errorMsg.textContent = forecast[1];
+    } else {
+      city.textContent = `${forecast.location.city}, ${forecast.location.region}, ${forecast.location.country}`;
 
-    dCondition.textContent = forecast.current.condition;
-    d1Condition.textContent = forecast.forecastday.d1.condition;
-    d2Condition.textContent = forecast.forecastday.d2.condition;
-    d3Condition.textContent = forecast.forecastday.d3.condition;
+      dTemp.textContent = forecast.current.temp_c;
+      d1Temp.textContent = forecast.forecastday.d1.maxtemp_c;
+      d2Temp.textContent = forecast.forecastday.d2.maxtemp_c;
+      d3Temp.textContent = forecast.forecastday.d3.maxtemp_c;
+
+      dCondition.textContent = forecast.current.condition;
+      d1Condition.textContent = forecast.forecastday.d1.condition;
+      d2Condition.textContent = forecast.forecastday.d2.condition;
+      d3Condition.textContent = forecast.forecastday.d3.condition;
+
+      dImg.src = await getGiphyUrl(forecast.current.condition);
+      d1Img.src = await getGiphyUrl(forecast.forecastday.d1.condition);
+      d2Img.src = await getGiphyUrl(forecast.forecastday.d2.condition);
+      d3Img.src = await getGiphyUrl(forecast.forecastday.d3.condition);
+    }
   }
 
   searchBtn.addEventListener("click", (e) => {
@@ -86,6 +152,8 @@ function screenController() {
     displayForecast();
     searchInput.value = "";
   });
+
+  resetDisplay();
 }
 
 screenController();
