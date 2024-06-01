@@ -1,28 +1,20 @@
 function getForecast(location) {
   async function fetchForecast(location) {
-    try {
-      const response = await fetch(
-        `http://api.weatherapi.com/v1/forecast.json?key=06dc5f01de824b5db7084207242905&q=${location}&days=4`
-      );
+    const response = await fetch(
+      `http://api.weatherapi.com/v1/forecast.json?key=06dc5f01de824b5db7084207242905&q=${location}&days=4`
+    );
 
-      if (response.ok) {
-        const forecast = await response.json();
-        return forecast;
-      } else {
-        const error = await response.json();
-        return ["Error", error.error.message];
-      }
-    } catch (err) {
-      console.log(err);
+    if (response.ok) {
+      const forecast = await response.json();
+      return processForecast(forecast);
+    } else {
+      const error = await response.json();
+      return ["Error", error.error.message];
     }
   }
 
-  async function processForecast(location) {
-    const fullForecast = await fetchForecast(location);
-
-    if (fullForecast[0] === "Error") {
-      return fullForecast;
-    }
+  async function processForecast(forecast) {
+    const fullForecast = forecast;
 
     const shortForecast = {
       current: {
@@ -62,7 +54,7 @@ function getForecast(location) {
     return shortForecast;
   }
 
-  return processForecast(location);
+  return fetchForecast(location);
 }
 
 async function getGiphyUrl(search) {
